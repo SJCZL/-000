@@ -1,0 +1,404 @@
+app:
+  description: '一个智能的天气查询助手
+
+    '
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 天气助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.0.22@fa668d0ec3b434270453ede311196acaad0531ad9e3d5561cd622e6508cd3254
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1748157903253-source-1748158811670-target
+      source: '1748157903253'
+      sourceHandle: source
+      target: '1748158811670'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: 1748158811670-source-1748160679357-target
+      source: '1748158811670'
+      sourceHandle: source
+      target: '1748160679357'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: llm
+      id: 1748160679357-source-1748157906462-target
+      source: '1748160679357'
+      sourceHandle: source
+      target: '1748157906462'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1748157906462-source-1748162362572-target
+      source: '1748157906462'
+      sourceHandle: source
+      target: '1748162362572'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: userinput
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: userinput
+      height: 89
+      id: '1748157903253'
+      position:
+        x: 263.4227088242824
+        y: 111.77180214563003
+      positionAbsolute:
+        x: 263.4227088242824
+        y: 111.77180214563003
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: gpt-3.5-turbo
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: a537fe9e-b53c-4779-850e-0de9855d4cf6
+          role: system
+          text: "你是一位专业且友好的天气播报员。你的任务是根据用户的提问和天气数据，为用户生成详细、生动且贴心的天气播报和建议。\n\n**输入内容说明：**\n\
+            - 用户原始问题（user_question）：{{{{#1748157903253.userinput#}}}}\n- 天气数据（{{#1748160679357.text#}}）：这是一个\
+            \ JSON 字符串，包含了城市、温度、体感温度、湿度、天气描述、风速等信息。\n\n**要求：**\n1. 首先用简洁自然的话回应用户的问题（可以重复用户问题）。\n\
+            2. 认真解析天气数据 JSON 字符串，从中提取出“城市”、“温度”、“体感温度”、“天气描述（如晴、多云等）”、“湿度”、“风速”等关键信息进行播报。\n\
+            3. 用轻松愉快的语气，适当使用 emoji，让播报更生动。\n4. 根据天气状况，给用户实用建议（如穿衣、防晒、是否需要带伞等）。\n5.\
+            \ 给出贴心提醒，并鼓励用户继续提问。\n\n**建议输出格式：** \n\n温度输出的时候进行判断是否是设摄氏度，如果不是转化为摄氏度进行输出\n\
+            \n\n\n"
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1748157906462'
+      position:
+        x: 1136.8278272177554
+        y: 327.10702008682074
+      positionAbsolute:
+        x: 1136.8278272177554
+        y: 327.10702008682074
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-3.5-turbo
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: be388d98-8f2d-4d45-9385-b0c859c283f0
+          role: system
+          text: "你是一个智能助手，专注从用户的话中**只提取要查询天气的城市英文名称**，请严格按照下方城市映射表转换，并且**只输出英文名，不包含中文或其他多余内容**。\n\
+            \n用户输入：{{#1748157903253.userinput#}}\n\n---\n\n### 任务要求：\n\n1. 识别用户想查询的城市（可能是中文或英文）。\n\
+            2. 若是以下中文城市，请**务必按照映射表返回对应英文拼写**；若不在表中，保持用户原文（一般为英文名）。\n3. 输入若是邮政编码或经纬度，请先转换为对应城市的英文名称后输出。\n\
+            4. 输出结果**仅为城市英文名**，不添加解释、标点或额外文本。\n\n---\n\n### 城市映射表：\n\n- 北京 → Beijing\
+            \  \n- 上海 → Shanghai  \n- 广州 → Guangzhou  \n- 深圳 → Shenzhen  \n- 成都 →\
+            \ Chengdu  \n- 杭州 → Hangzhou  \n- 南京 → Nanjing  \n- 西安 → Xian  \n- 武汉\
+            \ → Wuhan  \n- 重庆 → Chongqing  \n\n---\n\n### 默认规则：\n\n- 用户未明确提供城市时，默认返回：Beijing\n\
+            \n---\n\n### 示例：\n\n- 用户：“北京天气怎样？” → 返回：Beijing  \n- 用户：“南京明天会下雨吗” → 返回：Nanjing\
+            \  \n- 用户：“查一下 London 的天气” → 返回：London  \n- 用户：“天气预报” → 返回：Beijing  \n\
+            - 用户输入邮编或经纬度时，转换成对应城市英文名后输出\n\n---\n\n**请严格遵守以上规则，仅输出符合要求的城市英文名称：**\n\n\
+            - 如果用户没明确提到城市，默认返回：Beijing\n\n**示例：**\n- 用户：\"北京天气怎样？\" → 返回：Beijing\n\
+            - 用户：\"南京明天会下雨吗\" → 返回：Nanjing\n- 用户：\"查一下 London 的天气\" → 返回：London\n\
+            - 用户：\"天气预报\" → 返回：Beijing\n\n**现在请根据上述要求，仅输出城市英文名：**\n\n"
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1748158811670'
+      position:
+        x: 585.8760420275266
+        y: 105.77180214563003
+      positionAbsolute:
+        x: 585.8760420275266
+        y: 105.77180214563003
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 城市名称（支持中文或英文）
+            ja_JP: 城市名称（支持中文或英文）
+            pt_BR: 城市名称（支持中文或英文）
+            zh_Hans: 城市名称（支持中文或英文）
+          label:
+            en_US: q
+            ja_JP: q
+            pt_BR: q
+            zh_Hans: q
+          llm_description: 城市名称（支持中文或英文）
+          max: null
+          min: null
+          name: q
+          options: []
+          placeholder:
+            en_US: 城市名称（支持中文或英文）
+            ja_JP: 城市名称（支持中文或英文）
+            pt_BR: 城市名称（支持中文或英文）
+            zh_Hans: 城市名称（支持中文或英文）
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: a25f8197f517a4a12a968279b646cc81
+          form: llm
+          human_description:
+            en_US: API 密钥
+            ja_JP: API 密钥
+            pt_BR: API 密钥
+            zh_Hans: API 密钥
+          label:
+            en_US: appid
+            ja_JP: appid
+            pt_BR: appid
+            zh_Hans: appid
+          llm_description: API 密钥
+          max: null
+          min: null
+          name: appid
+          options: []
+          placeholder:
+            en_US: API 密钥
+            ja_JP: API 密钥
+            pt_BR: API 密钥
+            zh_Hans: API 密钥
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: metric
+          form: llm
+          human_description:
+            en_US: 温度单位（metric=摄氏度, imperial=华氏度）
+            ja_JP: 温度单位（metric=摄氏度, imperial=华氏度）
+            pt_BR: 温度单位（metric=摄氏度, imperial=华氏度）
+            zh_Hans: 温度单位（metric=摄氏度, imperial=华氏度）
+          label:
+            en_US: units
+            ja_JP: units
+            pt_BR: units
+            zh_Hans: units
+          llm_description: 温度单位（metric=摄氏度, imperial=华氏度）
+          max: null
+          min: null
+          name: units
+          options: []
+          placeholder:
+            en_US: 温度单位（metric=摄氏度, imperial=华氏度）
+            ja_JP: 温度单位（metric=摄氏度, imperial=华氏度）
+            pt_BR: 温度单位（metric=摄氏度, imperial=华氏度）
+            zh_Hans: 温度单位（metric=摄氏度, imperial=华氏度）
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: zh_cn
+          form: llm
+          human_description:
+            en_US: 返回语言（zh_cn=简体中文）
+            ja_JP: 返回语言（zh_cn=简体中文）
+            pt_BR: 返回语言（zh_cn=简体中文）
+            zh_Hans: 返回语言（zh_cn=简体中文）
+          label:
+            en_US: lang
+            ja_JP: lang
+            pt_BR: lang
+            zh_Hans: lang
+          llm_description: 返回语言（zh_cn=简体中文）
+          max: null
+          min: null
+          name: lang
+          options: []
+          placeholder:
+            en_US: 返回语言（zh_cn=简体中文）
+            ja_JP: 返回语言（zh_cn=简体中文）
+            pt_BR: 返回语言（zh_cn=简体中文）
+            zh_Hans: 返回语言（zh_cn=简体中文）
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          appid: ''
+          lang: ''
+          q: ''
+          units: ''
+        provider_id: 2be96459-3d2a-4d70-a60c-fd777cf8912e
+        provider_name: get_weather_by_city
+        provider_type: api
+        selected: false
+        title: getWeatherByCity
+        tool_configurations: {}
+        tool_description: 根据城市名称查询实时天气信息，支持中英文城市名
+        tool_label: getWeatherByCity
+        tool_name: getWeatherByCity
+        tool_parameters:
+          appid:
+            type: mixed
+            value: a25f8197f517a4a12a968279b646cc81
+          lang:
+            type: mixed
+            value: ''
+          q:
+            type: mixed
+            value: '{{#1748158811670.text#}}'
+          units:
+            type: mixed
+            value: ''
+        type: tool
+      height: 53
+      id: '1748160679357'
+      position:
+        x: 931.946090168843
+        y: 150.42290814496326
+      positionAbsolute:
+        x: 931.946090168843
+        y: 150.42290814496326
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1748157906462'
+          - text
+          variable: text
+        selected: false
+        title: 结束
+        type: end
+      height: 89
+      id: '1748162362572'
+      position:
+        x: 1586.6966655467622
+        y: 308.8077842419364
+      positionAbsolute:
+        x: 1586.6966655467622
+        y: 308.8077842419364
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: 254.78547280557257
+      y: 374.80762114227736
+      zoom: 0.4352752816480622
